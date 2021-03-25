@@ -38,38 +38,38 @@ func (l *Lexer) NextToken() token.Token {
 
 	switch l.char {
 	case '=':
-		tok = token.New(0, 0, token.ASSIGN, l.char)
+		tok = token.New(1, l.position, token.ASSIGN, l.char)
 	case '+':
-		tok = token.New(0, 0, token.PLUS, l.char)
+		tok = token.New(1, l.position, token.PLUS, l.char)
 	case '-':
-		tok = token.New(0, 0, token.MINUS, l.char)
+		tok = token.New(1, l.position, token.MINUS, l.char)
 	case '*':
-		tok = token.New(0, 0, token.MULTIPLY, l.char)
+		tok = token.New(1, l.position, token.MULTIPLY, l.char)
 	case ':':
-		tok = token.New(0, 0, token.DIVIDE, l.char)
+		tok = token.New(1, l.position, token.DIVIDE, l.char)
 	case ',':
-		tok = token.New(0, 0, token.COMMA, l.char)
+		tok = token.New(1, l.position, token.COMMA, l.char)
 	case ';':
-		tok = token.New(0, 0, token.SEMICOLON, l.char)
+		tok = token.New(1, l.position, token.SEMICOLON, l.char)
 	case '(':
-		tok = token.New(0, 0, token.LPAREN, l.char)
+		tok = token.New(1, l.position, token.LPAREN, l.char)
 	case ')':
-		tok = token.New(0, 0, token.RPAREN, l.char)
+		tok = token.New(1, l.position, token.RPAREN, l.char)
 	case '{':
-		tok = token.New(0, 0, token.LBRACE, l.char)
+		tok = token.New(1, l.position, token.LBRACE, l.char)
 	case '}':
-		tok = token.New(0, 0, token.RBRACE, l.char)
+		tok = token.New(1, l.position, token.RBRACE, l.char)
 	case 0:
 		tok.Value = ""
 		tok.Type = token.EOF
 	default:
 		if isLetter(l.char) {
-			tok.Value = l.readIdent()
+			tok.Col, tok.Value = l.readIdent()
 			tok.Type = token.IdentLookup(tok.Value)
 
 			return tok
 		} else if isDigit(l.char) {
-			tok.Value = l.readNumber()
+			tok.Col, tok.Value = l.readNumber()
 			tok.Type = token.INT
 
 			return tok
@@ -83,22 +83,22 @@ func (l *Lexer) NextToken() token.Token {
 	return tok
 }
 
-func (l *Lexer) readIdent() string {
+func (l *Lexer) readIdent() (int, string) {
 	position := l.position
 	for isLetter(l.char) {
 		l.readChar()
 	}
 
-	return l.input[position:l.position]
+	return position + 1, l.input[position:l.position]
 }
 
-func (l *Lexer) readNumber() string {
+func (l *Lexer) readNumber() (int, string) {
 	position := l.position
 	for isDigit(l.char) {
 		l.readChar()
 	}
 
-	return l.input[position:l.position]
+	return position + 1, l.input[position:l.position]
 }
 
 func isLetter(char byte) bool {
