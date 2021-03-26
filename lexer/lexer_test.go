@@ -8,15 +8,17 @@ import (
 	token "github.com/MihaiBlebea/go-interpreter/token"
 )
 
+type testCase struct {
+	line      int
+	col       int
+	tokenType token.TokenType
+	value     string
+}
+
 func TestNextToken(t *testing.T) {
 	input := "let a = 2 + 5"
 
-	cases := []struct {
-		line      int
-		col       int
-		tokenType token.TokenType
-		value     string
-	}{
+	cases := []testCase{
 		{
 			line:      1,
 			col:       1,

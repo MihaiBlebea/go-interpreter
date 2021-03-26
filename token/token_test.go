@@ -7,11 +7,13 @@ import (
 	token "github.com/MihaiBlebea/go-interpreter/token"
 )
 
+type testCase struct {
+	input string
+	ident token.TokenType
+}
+
 func TestIdentLookup(t *testing.T) {
-	cases := []struct {
-		input string
-		ident token.TokenType
-	}{
+	cases := []testCase{
 		{
 			input: "func",
 			ident: token.FUNC,

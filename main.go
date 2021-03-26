@@ -15,6 +15,6 @@ func main() {
 		log.Fatal()
 	}
 
-	fmt.Printf("Hello %s", usr.Username)
+	fmt.Printf("Hello %s ", usr.Username)
 	repl.Start(os.Stdin, os.Stdout)
 }

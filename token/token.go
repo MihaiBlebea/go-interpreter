@@ -14,6 +14,7 @@ const (
 	MINUS    = "-"
 	MULTIPLY = "*"
 	DIVIDE   = ":"
+	BANG     = "!"
 
 	COMMA     = ","
 	SEMICOLON = ";"
@@ -23,13 +24,22 @@ const (
 	LBRACE = "{"
 	RBRACE = "}"
 
-	FUNC = "FUNC"
-	LET  = "LET"
+	FUNC   = "FUNC"
+	LET    = "LET"
+	RETURN = "RETURN"
+
+	GT    = ">"
+	LT    = "<"
+	GTE   = ">="
+	LTE   = "<="
+	EQ    = "=="
+	NOTEQ = "!="
 )
 
 var keywords = map[string]TokenType{
-	"let":  LET,
-	"func": FUNC,
+	"let":    LET,
+	"func":   FUNC,
+	"return": RETURN,
 }
 
 type Token struct {
@@ -45,7 +55,7 @@ func New(line int, col int, t TokenType, value byte) Token {
 }
 
 // TODO: handle error cases when line = 0 or col = 0
-func NewIdent(line int, col int, t TokenType, keyword string) Token {
+func NewWithString(line int, col int, t TokenType, keyword string) Token {
 	return Token{line, col, t, keyword}
 }
 
